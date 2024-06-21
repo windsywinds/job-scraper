@@ -1,0 +1,12 @@
+node_modules
+npm-debug.log
+
+# local output files
+*task*.json
+*.png
+
+*/bak*
+
+.env
+.env.local
+.env.production
