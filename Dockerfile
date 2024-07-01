@@ -1,4 +1,4 @@
-FROM node:20.9.0-alpine
+FROM node:20.9.0-alpine AS build
 
 WORKDIR /app
 
@@ -32,5 +32,16 @@ RUN npx prisma generate
 # Compile typescript
 RUN npx tsc
 
+# Create new stage
+FROM node:20.9.0-alpine
+
+WORKDIR /app
+
+# Copy files from build stage
+COPY --from=build /app/package*.json ./
+COPY --from=build /app/dist ./dist
+COPY --from=build /app/node_modules ./node_modules
+COPY --from=build /app/prisma ./prisma
+
 # Set entry point
-ENTRYPOINT ["node", "index.js"]
+ENTRYPOINT ["node", "dist/index.js"]
