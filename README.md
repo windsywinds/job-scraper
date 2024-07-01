@@ -1,14 +1,16 @@
 # Job Board Scraper
 
-Create a Cloud Run job to insert job board entries into MongoDatabase
+This project was created to improve the on-boarding process for clients wanting to list their job openings. It can be invoked manually on the front end during on-boarding and also run on a timed schedule in order to populate new listings or update existing ones.
 
-# Clone repo via shell
+## Manually deploying to and running on GCloud
+
+### Clone repo via shell
 
 ```sh
 git clone https://github.com/account/repo.git
 ```
 
-# Setup gcloud
+### Setup gcloud
 
 ```sh
 PROJECT_ID=$PROJECT_ID
@@ -16,7 +18,7 @@ REGION=australia-southeast1
 gcloud config set core/project $PROJECT_ID
 ```
 
-# Enable APIs
+### Enable APIs
 
 ```sh
 gcloud services enable \
@@ -25,19 +27,19 @@ gcloud services enable \
   run.googleapis.com
 ```
 
-# CD into project dir
+### CD into project dir
 
 ```sh
 cd <repo directory name>
 ```
 
-# Create service account
+### Create service account
 
 ```sh
 gcloud iam service-accounts create jobscraper-sa --display-name="Job Scraper service account"
 ```
 
-# Give service account access
+### Give service account access
 
 ```sh
 gcloud projects add-iam-policy-binding $PROJECT_ID \
@@ -45,7 +47,7 @@ gcloud projects add-iam-policy-binding $PROJECT_ID \
   --member serviceAccount:jobscraper-sa@$PROJECT_ID.iam.gserviceaccount.com
 ```
 
-# Create Cloud Run Job
+### Create Cloud Run Job
 
 The URL's in this list are examples that currently cover each job scraper.
 
@@ -69,13 +71,13 @@ gcloud beta run jobs deploy jobscraper \
 - Note: Change the value of DATABASE_URL to your database connection string.
 - Note: Deploying a job can either have args or not, if no args is been passed, it will read the urls from the database.
 
-# Run Cloud Run Job
+### Run Cloud Run Job
 
 ```sh
 gcloud run jobs execute jobscraper --region=australia-southeast1
 ```
 
-# Update Job
+### Update Job
 
 ```sh
 gcloud run jobs update jobscraper \
